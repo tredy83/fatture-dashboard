@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fatture Sospese — AO / AUSL Ferrara</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --bg: #f4f2ed; --surface: #faf9f6; --card: #ffffff;
+    --border: #e0ddd6; --border2: #ccc9c0;
+    --text: #1a1916; --text2: #6b6860; --text3: #a09d96;
+    --ao: #1a5fa8; --ao-bg: #e8f0fa;
+    --ausl: #0d6e50; --ausl-bg: #e3f5ee;
+    --accent: #b85c00; --accent-bg: #fdf0e6;
+    --red: #c0392b;
+    --radius: 10px; --radius-sm: 6px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; line-height: 1.5; }
+
+  .topbar {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 0 2rem; display: flex; align-items: center;
+    justify-content: space-between; height: 56px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: .04em; }
+  .logo span { color: var(--text3); }
+  .status-pill {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 99px; padding: 4px 12px;
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3);
+  }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text3); }
+  .status-dot.ok { background: #4caf8a; }
+  .status-dot.err { background: var(--red); }
+
+  .main { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px;
+  }
+
+  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .metric-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.2rem; }
+  .metric-card .lbl { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+  .metric-card .val { font-family: 'DM Mono', monospace; font-size: 32px; font-weight: 400; letter-spacing: -.02em; line-height: 1; margin-bottom: 4px; }
+  .metric-card .sub { font-size: 11px; color: var(--text3); }
+  .metric-card.ao .val { color: var(--ao); }
+  .metric-card.ausl .val { color: var(--ausl); }
+  .metric-card.tot { border-left: 3px solid var(--text); }
+  .metric-card.delta-pos .val { color: var(--red); }
+  .metric-card.delta-neg .val { color: var(--ausl); }
+
+  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  @media (max-width: 700px) { .charts-row { grid-template-columns: 1fr; } }
+  .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
+  .chart-card .ct { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; font-size: 11px; color: var(--text2); }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .legend .sq { width: 9px; height: 9px; border-radius: 2px; }
+
+  .tcard { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; margin-bottom: 1.5rem; overflow-x: auto; }
+  .tcard .ct { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { font-size: 11px; font-weight: 500; color: var(--text3); text-align: left; padding: 5px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--bg); }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 500; font-family: 'DM Mono', monospace; }
+  .badge.ao { background: var(--ao-bg); color: var(--ao); }
+  .badge.ausl { background: var(--ausl-bg); color: var(--ausl); }
+  .num { font-family: 'DM Mono', monospace; font-size: 13px; }
+  .num.bold { font-weight: 500; }
+
+  .tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+  .tab { padding: 7px 16px; font-size: 12px; font-weight: 500; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s; }
+  .tab.active { color: var(--text); border-bottom-color: var(--text); }
+
+  .period-bar { display:flex; align-items:center; gap:4px; margin-bottom:10px; }
+  .period-btn { background:none; border:1px solid var(--border2); border-radius:var(--radius-sm); padding:3px 10px; font-family:'DM Mono',monospace; font-size:11px; color:var(--text3); cursor:pointer; transition:all .12s; }
+  .period-btn:hover { background:var(--bg); color:var(--text2); }
+  .period-btn.active { background:var(--text); border-color:var(--text); color:#fff; }
+
+  .fascia-bar { display: flex; gap: 3px; align-items: center; height: 16px; }
+  .fb { border-radius: 2px; height: 100%; min-width: 3px; }
+  .fb.f1 { background: #4caf8a; } .fb.f2 { background: #f0a040; }
+  .fb.f3 { background: #e06030; } .fb.f4 { background: #c0392b; }
+
+  .loading { text-align: center; padding: 4rem 1rem; color: var(--text3); }
+  .loading h3 { font-size: 15px; font-weight: 400; margin-bottom: 6px; color: var(--text2); }
+  .error-box { background: #fdecea; border: 1px solid #f5bcb8; border-radius: var(--radius-sm); padding: 1rem 1.2rem; color: var(--red); font-size: 13px; margin-bottom: 1.5rem; }
+
+  .readonly-banner {
+    background: var(--ao-bg); border-bottom: 1px solid #b8d0ef;
+    padding: 8px 2rem; font-size: 12px; color: var(--ao);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  .fadein { animation: fadeUp .25s ease both; }
+
+  .footer { text-align: center; padding: 2rem; font-size: 11px; color: var(--text3); font-family: 'DM Mono', monospace; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">FATTURE SOSPESE <span>/ AO–AUSL Ferrara</span></div>
+  <div class="status-pill">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusText">caricamento...</span>
+  </div>
+</div>
+
+<div class="readonly-banner">
+  &#128274; Vista di sola lettura — aggiornata da console ogni mattina
+</div>
+
+<div class="main">
+  <div id="root">
+    <div class="loading"><h3>Caricamento dati...</h3><p>Recupero dati.json dal repository</p></div>
+  </div>
+</div>
+
+<div class="footer">dashboard sola lettura · dati aggiornati il <span id="genTime">—</span></div>
+
+<script>
+let chartBar = null, chartLine = null;
+let activePeriod = 30;
+let activeTab = 'ao';
+
+// ── CARICA dati.json dallo stesso repo GitHub Pages ──
+// Il file dati.json deve stare nella stessa cartella di dashboard.html
+async function loadData() {
+  try {
+    const res = await fetch('./dati.json?t=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return await res.json();
+  } catch(e) {
+    return null;
+  }
+}
+
+function setStatus(ok, text) {
+  document.getElementById('statusDot').className = 'status-dot ' + (ok ? 'ok' : 'err');
+  document.getElementById('statusText').textContent = text;
+}
+
+async function init() {
+  const data = await loadData();
+  if (!data) {
+    setStatus(false, 'dati.json non trovato');
+    document.getElementById('root').innerHTML = `
+      <div class="error-box">
+        <strong>Impossibile caricare i dati.</strong><br>
+        Il file <code>dati.json</code> non è presente nel repository, oppure non è ancora stato caricato.<br>
+        Dalla console locale, clicca <strong>"↙ Aggiorna dashboard"</strong> e carica il file generato su GitHub.
+      </div>`;
+    return;
+  }
+
+  const records = (data.records || []).filter(r => r.totAll > 0);
+  if (!records.length) {
+    setStatus(false, 'nessun dato');
+    document.getElementById('root').innerHTML = '<div class="loading"><h3>Nessun dato disponibile</h3></div>';
+    return;
+  }
+
+  const genAt = data.generatedAt ? new Date(data.generatedAt).toLocaleString('it-IT') : '—';
+  setStatus(true, 'aggiornato ' + genAt);
+  document.getElementById('genTime').textContent = genAt;
+
+  // raggruppa per data
+  const byDate = {};
+  records.forEach(r => {
+    if (!byDate[r.date]) byDate[r.date] = { AO: null, AUSL: null };
+    byDate[r.date][r.tipo] = r;
+  });
+  const dates = Object.keys(byDate).sort();
+  const lastDate = dates[dates.length - 1];
+  const lastAO   = byDate[lastDate]?.AO;
+  const lastAUSL = byDate[lastDate]?.AUSL;
+  const totAO    = lastAO?.totAll || 0;
+  const totAUSL  = lastAUSL?.totAll || 0;
+  const totOggi  = totAO + totAUSL;
+
+  let delta = null;
+  if (dates.length > 1) {
+    const prev = dates[dates.length - 2];
+    delta = totOggi - ((byDate[prev]?.AO?.totAll||0) + (byDate[prev]?.AUSL?.totAll||0));
+  }
+
+  const deltaCard = delta !== null ? `
+    <div class="metric-card ${delta > 0 ? 'delta-pos' : 'delta-neg'} fadein">
+      <div class="lbl">Variazione</div>
+      <div class="val">${delta > 0 ? '+' : ''}${delta}</div>
+      <div class="sub">rispetto a ${dates[dates.length-2]}</div>
+    </div>` : '';
+
+  // ── scrivanie helper ──
+  function buildScrivaniaTable(tipo) {
+    const recs = records.filter(r => r.tipo === tipo);
+    if (!recs.length) return '<p style="font-size:13px;color:var(--text3);padding:8px 0">Nessun dato.</p>';
+    const last = [...recs].sort((a,b) => b.date.localeCompare(a.date))[0];
+    const sorted = [...(last.scrivanie||[])].sort((a,b) => b.vtot - a.vtot);
+    if (!sorted.length) return '<p style="font-size:13px;color:var(--text3);padding:8px 0">Nessun dato.</p>';
+    return `<table>
+      <thead><tr><th>Scrivania</th><th>&lt;7g</th><th>7-13g</th><th>14-29g</th><th>≥30g</th><th>Totale</th></tr></thead>
+      <tbody>${sorted.map(s => `<tr>
+        <td style="font-family:'DM Mono',monospace;font-size:12px">${s.label}</td>
+        <td class="num">${s.v7||'—'}</td><td class="num">${s.v713||'—'}</td>
+        <td class="num">${s.v1429||'—'}</td><td class="num">${s.v30||'—'}</td>
+        <td class="num bold">${s.vtot}</td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+  }
+
+  // ── storico ──
+  const sortedRecs = [...records].sort((a,b) => b.date.localeCompare(a.date));
+  const summaryRows = sortedRecs.map(r => {
+    const bm = r.totAll || 1;
+    return `<tr>
+      <td><span class="badge ${r.tipo.toLowerCase()}">${r.tipo}</span></td>
+      <td class="num">${r.date}</td>
+      <td class="num">${r.tot7}</td><td class="num">${r.tot713}</td>
+      <td class="num">${r.tot1429}</td><td class="num">${r.tot30}</td>
+      <td class="num bold">${r.totAll}</td>
+      <td><div class="fascia-bar">
+        <div class="fb f1" style="width:${Math.round(r.tot7/bm*60)}px"></div>
+        <div class="fb f2" style="width:${Math.round(r.tot713/bm*60)}px"></div>
+        <div class="fb f3" style="width:${Math.round(r.tot1429/bm*60)}px"></div>
+        <div class="fb f4" style="width:${Math.round(r.tot30/bm*60)}px"></div>
+      </div></td>
+    </tr>`;
+  }).join('');
+
+  const aoScr  = records.filter(r => r.tipo==='AO');
+  const auslScr= records.filter(r => r.tipo==='AUSL');
+
+  document.getElementById('root').innerHTML = `
+    <div class="section-label fadein">Situazione aggiornata — ${lastDate}</div>
+    <div class="metrics-grid fadein">
+      <div class="metric-card tot"><div class="lbl">Totale sospese</div><div class="val">${totOggi}</div><div class="sub">AO + AUSL</div></div>
+      <div class="metric-card ao"><div class="lbl">AO</div><div class="val">${totAO}</div><div class="sub">${lastAO ? lastAO.scrivanie.length+' scrivanie' : 'nessun dato'}</div></div>
+      <div class="metric-card ausl"><div class="lbl">AUSL</div><div class="val">${totAUSL}</div><div class="sub">${lastAUSL ? lastAUSL.scrivanie.length+' scrivanie' : 'nessun dato'}</div></div>
+      ${deltaCard}
+    </div>
+
+    <div class="fadein">
+      <div class="period-bar">
+        <button class="period-btn active" id="pb7"   onclick="setPeriod(7)">7g</button>
+        <button class="period-btn"        id="pb30"  onclick="setPeriod(30)">30g</button>
+        <button class="period-btn"        id="pb90"  onclick="setPeriod(90)">3 mesi</button>
+        <button class="period-btn"        id="pbAll" onclick="setPeriod(null)">tutto</button>
+      </div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="ct">AO vs AUSL per giorno</div>
+          <div class="legend"><span><span class="sq" style="background:#1a5fa8"></span>AO</span><span><span class="sq" style="background:#0d6e50"></span>AUSL</span></div>
+          <div style="position:relative;height:190px"><canvas id="cBar"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="ct">Andamento nel tempo</div>
+          <div class="legend">
+            <span><span class="sq" style="background:#b85c00"></span>Totale</span>
+            <span><span class="sq" style="background:#1a5fa8"></span>AO</span>
+            <span><span class="sq" style="background:#0d6e50"></span>AUSL</span>
+          </div>
+          <div style="position:relative;height:190px"><canvas id="cLine"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tcard fadein">
+      <div class="ct"><span>Storico giorni</span><span style="font-size:11px;color:var(--text3)">${records.length} file</span></div>
+      <table>
+        <thead><tr><th>Tipo</th><th>Data</th><th>&lt;7g</th><th>7-13g</th><th>14-29g</th><th>≥30g</th><th>Totale</th><th>Distribuzione</th></tr></thead>
+        <tbody>${summaryRows}</tbody>
+      </table>
+    </div>
+
+    <div class="tcard fadein">
+      <div class="ct"><span>Scrivanie — ultimo giorno</span></div>
+      <div class="tabs">
+        <div class="tab ${activeTab==='ao'?'active':''}" onclick="switchTab('ao')">AO (${aoScr.length>0?[...aoScr].sort((a,b)=>b.date.localeCompare(a.date))[0].scrivanie.length:0} scrivanie)</div>
+        <div class="tab ${activeTab==='ausl'?'active':''}" onclick="switchTab('ausl')">AUSL (${auslScr.length>0?[...auslScr].sort((a,b)=>b.date.localeCompare(a.date))[0].scrivanie.length:0} scrivanie)</div>
+      </div>
+      <div id="scr-ao" style="${activeTab!=='ao'?'display:none':''}">${buildScrivaniaTable('AO')}</div>
+      <div id="scr-ausl" style="${activeTab!=='ausl'?'display:none':''}">${buildScrivaniaTable('AUSL')}</div>
+    </div>
+  `;
+
+  // grafici
+  if (chartBar) chartBar.destroy();
+  if (chartLine) chartLine.destroy();
+  let filteredDates = dates;
+  if (activePeriod !== null) {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - activePeriod);
+    const cutoffStr = cutoff.toISOString().slice(0,10);
+    filteredDates = dates.filter(d => d >= cutoffStr);
+    if (!filteredDates.length) filteredDates = dates.slice(-2);
+  }
+  const lbls     = filteredDates.map(d => d.slice(5));
+  const aoVals   = filteredDates.map(d => byDate[d]?.AO?.totAll || null);
+  const auslVals = filteredDates.map(d => byDate[d]?.AUSL?.totAll || null);
+  const totVals  = filteredDates.map((d,i) => (aoVals[i]||0)+(auslVals[i]||0));
+
+  chartBar = new Chart(document.getElementById('cBar'), {
+    type: 'bar',
+    data: { labels: lbls, datasets: [
+      { label:'AO',   data: aoVals,   backgroundColor:'#1a5fa8', borderRadius:3 },
+      { label:'AUSL', data: auslVals, backgroundColor:'#0d6e50', borderRadius:3 }
+    ]},
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{ticks:{font:{size:10},color:'#a09d96'},grid:{display:false}},
+              y:{ticks:{font:{size:10},color:'#a09d96'},grid:{color:'rgba(0,0,0,.06)'}}} }
+  });
+  chartLine = new Chart(document.getElementById('cLine'), {
+    type: 'line',
+    data: { labels: lbls, datasets: [
+      { label:'Totale', data:totVals,  borderColor:'#b85c00', backgroundColor:'rgba(184,92,0,.07)', tension:.35, pointRadius:4, fill:true },
+      { label:'AO',     data:aoVals,   borderColor:'#1a5fa8', backgroundColor:'transparent', tension:.35, pointRadius:3, borderDash:[4,3] },
+      { label:'AUSL',   data:auslVals, borderColor:'#0d6e50', backgroundColor:'transparent', tension:.35, pointRadius:3, borderDash:[4,3] }
+    ]},
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{ticks:{font:{size:10},color:'#a09d96'},grid:{display:false}},
+              y:{ticks:{font:{size:10},color:'#a09d96'},grid:{color:'rgba(0,0,0,.06)'}}} }
+  });
+}
+
+function switchTab(t) {
+  activeTab = t;
+  ['ao','ausl'].forEach(k => {
+    document.querySelector(`.tab:nth-child(${k==='ao'?1:2})`)?.classList.toggle('active', k===t);
+    const el = document.getElementById('scr-'+k);
+    if (el) el.style.display = k===t ? '' : 'none';
+  });
+}
+
+function setPeriod(p) {
+  activePeriod = p;
+  [7,30,90,null].forEach(v => {
+    const id = v===null?'pbAll':'pb'+v;
+    document.getElementById(id)?.classList.toggle('active', v===p);
+  });
+  // ricostruisce solo i grafici
+  if (chartBar) chartBar.destroy();
+  if (chartLine) chartLine.destroy();
+  // rilancia init per semplicità
+  init();
+}
+
+init();
+</script>
+</body>
+</html>
