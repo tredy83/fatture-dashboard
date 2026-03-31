@@ -91,6 +91,17 @@
   .fb.f1 { background: #4caf8a; } .fb.f2 { background: #f0a040; }
   .fb.f3 { background: #e06030; } .fb.f4 { background: #c0392b; }
 
+  /* ── ACCORDION ── */
+  .accordion { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:1.25rem; overflow:hidden; }
+  .accordion-header { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; cursor:pointer; user-select:none; }
+  .accordion-header:hover { background:var(--border); }
+  .accordion-title { font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--text2); display:flex; align-items:center; gap:10px; }
+  .accordion-count { background:var(--card); border:1px solid var(--border2); border-radius:99px; padding:1px 8px; font-size:10px; color:var(--text3); }
+  .accordion-arrow { font-size:11px; color:var(--text3); transition:transform .2s; }
+  .accordion-arrow.open { transform:rotate(180deg); }
+  .accordion-body { display:none; padding:0 16px 14px; border-top:1px solid var(--border); overflow-x:auto; }
+  .accordion-body.open { display:block; }
+
   .loading { text-align: center; padding: 4rem 1rem; color: var(--text3); }
   .loading h3 { font-size: 15px; font-weight: 400; margin-bottom: 6px; color: var(--text2); }
   .error-box { background: #fdecea; border: 1px solid #f5bcb8; border-radius: var(--radius-sm); padding: 1rem 1.2rem; color: var(--red); font-size: 13px; margin-bottom: 1.5rem; }
@@ -276,12 +287,17 @@ async function init() {
       </div>
     </div>
 
-    <div class="tcard fadein">
-      <div class="ct"><span>Storico giorni</span><span style="font-size:11px;color:var(--text3)">${records.length} file</span></div>
-      <table>
-        <thead><tr><th>Tipo</th><th>Data</th><th>&lt;7g</th><th>7-13g</th><th>14-29g</th><th>≥30g</th><th>Totale</th><th>Distribuzione</th></tr></thead>
-        <tbody>${summaryRows}</tbody>
-      </table>
+    <div class="accordion fadein" id="accStorico">
+      <div class="accordion-header" onclick="toggleStorico()">
+        <div class="accordion-title">Storico giorni <span class="accordion-count">${records.length} file</span></div>
+        <span class="accordion-arrow" id="accArrow">▼</span>
+      </div>
+      <div class="accordion-body" id="accBody">
+        <table style="margin-top:8px">
+          <thead><tr><th>Tipo</th><th>Data</th><th>&lt;7g</th><th>7-13g</th><th>14-29g</th><th>≥30g</th><th>Totale</th><th>Distribuzione</th></tr></thead>
+          <tbody>${summaryRows}</tbody>
+        </table>
+      </div>
     </div>
 
     <div class="tcard fadein">
@@ -295,9 +311,18 @@ async function init() {
     </div>
   `;
 
-  // grafici
+  // salva byDate e dates globalmente per renderCharts
+  window._dash = { byDate, dates };
+  renderCharts();
+}
+
+function renderCharts() {
+  if (!window._dash) return;
+  const { byDate, dates } = window._dash;
+
   if (chartBar) chartBar.destroy();
   if (chartLine) chartLine.destroy();
+
   let filteredDates = dates;
   if (activePeriod !== null) {
     const cutoff = new Date();
@@ -351,11 +376,14 @@ function setPeriod(p) {
     const id = v===null?'pbAll':'pb'+v;
     document.getElementById(id)?.classList.toggle('active', v===p);
   });
-  // ricostruisce solo i grafici
-  if (chartBar) chartBar.destroy();
-  if (chartLine) chartLine.destroy();
-  // rilancia init per semplicità
-  init();
+  renderCharts();
+}
+
+function toggleStorico() {
+  const body = document.getElementById('accBody');
+  const arrow = document.getElementById('accArrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
 }
 
 init();
