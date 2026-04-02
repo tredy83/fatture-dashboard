@@ -3,388 +3,263 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fatture Sospese — AO / AUSL Ferrara</title>
+<title>Fatture — AO / AUSL Ferrara</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  :root {
-    --bg: #f4f2ed; --surface: #faf9f6; --card: #ffffff;
-    --border: #e0ddd6; --border2: #ccc9c0;
-    --text: #1a1916; --text2: #6b6860; --text3: #a09d96;
-    --ao: #1a5fa8; --ao-bg: #e8f0fa;
-    --ausl: #0d6e50; --ausl-bg: #e3f5ee;
-    --accent: #b85c00; --accent-bg: #fdf0e6;
-    --red: #c0392b;
-    --radius: 10px; --radius-sm: 6px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; line-height: 1.5; }
-
-  .topbar {
-    background: var(--surface); border-bottom: 1px solid var(--border);
-    padding: 0 2rem; display: flex; align-items: center;
-    justify-content: space-between; height: 56px;
-    position: sticky; top: 0; z-index: 100;
-  }
-  .logo { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: .04em; }
-  .logo span { color: var(--text3); }
-  .status-pill {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 99px; padding: 4px 12px;
-    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3);
-  }
-  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text3); }
-  .status-dot.ok { background: #4caf8a; }
-  .status-dot.err { background: var(--red); }
-
-  .main { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 4rem; }
-
-  .section-label {
-    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
-    letter-spacing: .1em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px;
-  }
-
-  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
-  .metric-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.2rem; }
-  .metric-card .lbl { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
-  .metric-card .val { font-family: 'DM Mono', monospace; font-size: 32px; font-weight: 400; letter-spacing: -.02em; line-height: 1; margin-bottom: 4px; }
-  .metric-card .sub { font-size: 11px; color: var(--text3); }
-  .metric-card.ao .val { color: var(--ao); }
-  .metric-card.ausl .val { color: var(--ausl); }
-  .metric-card.tot { border-left: 3px solid var(--text); }
-  .metric-card.delta-pos .val { color: var(--red); }
-  .metric-card.delta-neg .val { color: var(--ausl); }
-
-  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
-  @media (max-width: 700px) { .charts-row { grid-template-columns: 1fr; } }
-  .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
-  .chart-card .ct { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
-  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; font-size: 11px; color: var(--text2); }
-  .legend span { display: flex; align-items: center; gap: 4px; }
-  .legend .sq { width: 9px; height: 9px; border-radius: 2px; }
-
-  .tcard { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; margin-bottom: 1.5rem; overflow-x: auto; }
-  .tcard .ct { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { font-size: 11px; font-weight: 500; color: var(--text3); text-align: left; padding: 5px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
-  td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
-  tr:last-child td { border-bottom: none; }
-  tbody tr:hover td { background: var(--bg); }
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 500; font-family: 'DM Mono', monospace; }
-  .badge.ao { background: var(--ao-bg); color: var(--ao); }
-  .badge.ausl { background: var(--ausl-bg); color: var(--ausl); }
-  .num { font-family: 'DM Mono', monospace; font-size: 13px; }
-  .num.bold { font-weight: 500; }
-
-  .tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
-  .tab { padding: 7px 16px; font-size: 12px; font-weight: 500; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s; }
-  .tab.active { color: var(--text); border-bottom-color: var(--text); }
-
-  .period-bar { display:flex; align-items:center; gap:4px; margin-bottom:10px; }
-  .period-btn { background:none; border:1px solid var(--border2); border-radius:var(--radius-sm); padding:3px 10px; font-family:'DM Mono',monospace; font-size:11px; color:var(--text3); cursor:pointer; transition:all .12s; }
-  .period-btn:hover { background:var(--bg); color:var(--text2); }
-  .period-btn.active { background:var(--text); border-color:var(--text); color:#fff; }
-
-  .fascia-bar { display: flex; gap: 3px; align-items: center; height: 16px; }
-  .fb { border-radius: 2px; height: 100%; min-width: 3px; }
-  .fb.f1 { background: #4caf8a; } .fb.f2 { background: #f0a040; }
-  .fb.f3 { background: #e06030; } .fb.f4 { background: #c0392b; }
-
-  /* ── ACCORDION ── */
-  .accordion { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:1.25rem; overflow:hidden; }
-  .accordion-header { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; cursor:pointer; user-select:none; }
-  .accordion-header:hover { background:var(--border); }
-  .accordion-title { font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--text2); display:flex; align-items:center; gap:10px; }
-  .accordion-count { background:var(--card); border:1px solid var(--border2); border-radius:99px; padding:1px 8px; font-size:10px; color:var(--text3); }
-  .accordion-arrow { font-size:11px; color:var(--text3); transition:transform .2s; }
-  .accordion-arrow.open { transform:rotate(180deg); }
-  .accordion-body { display:none; padding:0 16px 14px; border-top:1px solid var(--border); overflow-x:auto; }
-  .accordion-body.open { display:block; }
-
-  .loading { text-align: center; padding: 4rem 1rem; color: var(--text3); }
-  .loading h3 { font-size: 15px; font-weight: 400; margin-bottom: 6px; color: var(--text2); }
-  .error-box { background: #fdecea; border: 1px solid #f5bcb8; border-radius: var(--radius-sm); padding: 1rem 1.2rem; color: var(--red); font-size: 13px; margin-bottom: 1.5rem; }
-
-  .readonly-banner {
-    background: var(--ao-bg); border-bottom: 1px solid #b8d0ef;
-    padding: 8px 2rem; font-size: 12px; color: var(--ao);
-    display: flex; align-items: center; gap: 8px;
-  }
-
-  @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-  .fadein { animation: fadeUp .25s ease both; }
-
-  .footer { text-align: center; padding: 2rem; font-size: 11px; color: var(--text3); font-family: 'DM Mono', monospace; }
+  :root{--bg:#f4f2ed;--surface:#faf9f6;--card:#ffffff;--border:#e0ddd6;--border2:#ccc9c0;--text:#1a1916;--text2:#6b6860;--text3:#a09d96;--ao:#1a5fa8;--ao-bg:#e8f0fa;--ausl:#0d6e50;--ausl-bg:#e3f5ee;--accent:#b85c00;--red:#c0392b;--radius:10px;--radius-sm:6px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5}
+  .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+  .logo{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;letter-spacing:.04em}
+  .logo span{color:var(--text3)}
+  .status-pill{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:99px;padding:4px 12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text3)}
+  .status-dot{width:7px;height:7px;border-radius:50%;background:var(--text3)}
+  .status-dot.ok{background:#4caf8a}
+  .status-dot.err{background:var(--red)}
+  .readonly-banner{background:var(--ao-bg);border-bottom:1px solid #b8d0ef;padding:8px 2rem;font-size:12px;color:var(--ao);display:flex;align-items:center;gap:8px}
+  .main{max-width:1100px;margin:0 auto;padding:2rem 2rem 4rem}
+  .main-tabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:1.5rem}
+  .main-tab{padding:10px 24px;font-size:14px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .15s;display:flex;align-items:center;gap:8px}
+  .main-tab:hover{color:var(--text2)}
+  .main-tab.active{color:var(--text);border-bottom-color:var(--text)}
+  .main-tab .tc{background:var(--bg);border:1px solid var(--border2);border-radius:99px;padding:1px 7px;font-size:10px;font-family:'DM Mono',monospace;color:var(--text3)}
+  .main-tab.active .tc{background:var(--text);color:#fff;border-color:var(--text)}
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
+  .section-label{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
+  .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:1.5rem}
+  .metric-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.2rem}
+  .metric-card .lbl{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+  .metric-card .val{font-family:'DM Mono',monospace;font-size:32px;font-weight:400;letter-spacing:-.02em;line-height:1;margin-bottom:4px}
+  .metric-card .sub{font-size:11px;color:var(--text3)}
+  .metric-card.ao .val{color:var(--ao)}
+  .metric-card.ausl .val{color:var(--ausl)}
+  .metric-card.tot{border-left:3px solid var(--text)}
+  .metric-card.delta-pos .val{color:var(--red)}
+  .metric-card.delta-neg .val{color:var(--ausl)}
+  .metric-card.media .val{color:var(--accent)}
+  .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+  @media(max-width:700px){.charts-row{grid-template-columns:1fr}}
+  .chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem}
+  .chart-card .ct{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;font-size:11px;color:var(--text2)}
+  .legend span{display:flex;align-items:center;gap:4px}
+  .legend .sq{width:9px;height:9px;border-radius:2px}
+  .tcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;margin-bottom:1.5rem;overflow-x:auto}
+  .tcard .ct{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{font-size:11px;font-weight:500;color:var(--text3);text-align:left;padding:5px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+  td{padding:7px 10px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover td{background:var(--bg)}
+  .badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:500;font-family:'DM Mono',monospace}
+  .badge.ao{background:var(--ao-bg);color:var(--ao)}
+  .badge.ausl{background:var(--ausl-bg);color:var(--ausl)}
+  .num{font-family:'DM Mono',monospace;font-size:13px}
+  .num.bold{font-weight:500}
+  .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:12px}
+  .tab{padding:7px 16px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}
+  .tab.active{color:var(--text);border-bottom-color:var(--text)}
+  .period-bar{display:flex;align-items:center;gap:4px;margin-bottom:10px}
+  .period-btn{background:none;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:3px 10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);cursor:pointer;transition:all .12s}
+  .period-btn:hover{background:var(--bg);color:var(--text2)}
+  .period-btn.active{background:var(--text);border-color:var(--text);color:#fff}
+  .fascia-bar{display:flex;gap:3px;align-items:center;height:16px}
+  .fb{border-radius:2px;height:100%;min-width:3px}
+  .fb.f1{background:#4caf8a}.fb.f2{background:#f0a040}.fb.f3{background:#e06030}.fb.f4{background:#c0392b}
+  .accordion{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1.25rem;overflow:hidden}
+  .accordion-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;cursor:pointer;user-select:none}
+  .accordion-header:hover{background:var(--border)}
+  .accordion-title{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);display:flex;align-items:center;gap:10px}
+  .accordion-count{background:var(--card);border:1px solid var(--border2);border-radius:99px;padding:1px 8px;font-size:10px;color:var(--text3)}
+  .accordion-arrow{font-size:11px;color:var(--text3);transition:transform .2s}
+  .accordion-arrow.open{transform:rotate(180deg)}
+  .accordion-body{display:none;padding:0 16px 14px;border-top:1px solid var(--border);overflow-x:auto}
+  .accordion-body.open{display:block}
+  .loading{text-align:center;padding:4rem 1rem;color:var(--text3)}
+  .loading h3{font-size:15px;font-weight:400;margin-bottom:6px;color:var(--text2)}
+  .error-box{background:#fdecea;border:1px solid #f5bcb8;border-radius:var(--radius-sm);padding:1rem 1.2rem;color:var(--red);font-size:13px;margin-bottom:1.5rem}
+  .empty-state{text-align:center;padding:3rem 1rem;color:var(--text3)}
+  .empty-state h3{font-size:15px;font-weight:400;color:var(--text2);margin-bottom:6px}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .fadein{animation:fadeUp .25s ease both}
+  .footer{text-align:center;padding:2rem;font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
 </style>
 </head>
 <body>
-
 <div class="topbar">
-  <div class="logo">FATTURE SOSPESE <span>/ AO–AUSL Ferrara</span></div>
-  <div class="status-pill">
-    <span class="status-dot" id="statusDot"></span>
-    <span id="statusText">caricamento...</span>
-  </div>
+  <div class="logo">FATTURE <span>/ AO–AUSL Ferrara</span></div>
+  <div class="status-pill"><span class="status-dot" id="sDot"></span><span id="sTxt">caricamento...</span></div>
 </div>
-
-<div class="readonly-banner">
-  &#128274; Vista di sola lettura — aggiornata da console ogni mattina
-</div>
-
-<div class="main">
-  <div id="root">
-    <div class="loading"><h3>Caricamento dati...</h3><p>Recupero dati.json dal repository</p></div>
-  </div>
-</div>
-
+<div class="readonly-banner">&#128274; Vista di sola lettura — aggiornata da console ogni mattina</div>
+<div class="main"><div id="root"><div class="loading"><h3>Caricamento dati...</h3></div></div></div>
 <div class="footer">dashboard sola lettura · dati aggiornati il <span id="genTime">—</span></div>
 
 <script>
-let chartBar = null, chartLine = null;
-let activePeriod = 30;
-let activeTab = 'ao';
+let cBar=null,cLine=null,cET=null,cED=null;
+let period=30,tabS='ao',tabE='ao';
 
-// ── CARICA dati.json dallo stesso repo GitHub Pages ──
-// Il file dati.json deve stare nella stessa cartella di dashboard.html
-async function loadData() {
-  try {
-    const res = await fetch('./dati.json?t=' + Date.now());
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return await res.json();
-  } catch(e) {
-    return null;
-  }
+async function loadData(){
+  try{const r=await fetch('./dati.json?t='+Date.now());if(!r.ok)throw 0;return await r.json();}
+  catch(e){return null;}
 }
 
-function setStatus(ok, text) {
-  document.getElementById('statusDot').className = 'status-dot ' + (ok ? 'ok' : 'err');
-  document.getElementById('statusText').textContent = text;
-}
+function status(ok,t){document.getElementById('sDot').className='status-dot '+(ok?'ok':'err');document.getElementById('sTxt').textContent=t;}
 
-async function init() {
-  const data = await loadData();
-  if (!data) {
-    setStatus(false, 'dati.json non trovato');
-    document.getElementById('root').innerHTML = `
-      <div class="error-box">
-        <strong>Impossibile caricare i dati.</strong><br>
-        Il file <code>dati.json</code> non è presente nel repository, oppure non è ancora stato caricato.<br>
-        Dalla console locale, clicca <strong>"↙ Aggiorna dashboard"</strong> e carica il file generato su GitHub.
-      </div>`;
-    return;
-  }
-
-  const records = (data.records || []).filter(r => r.totAll > 0);
-  if (!records.length) {
-    setStatus(false, 'nessun dato');
-    document.getElementById('root').innerHTML = '<div class="loading"><h3>Nessun dato disponibile</h3></div>';
-    return;
-  }
-
-  const genAt = data.generatedAt ? new Date(data.generatedAt).toLocaleString('it-IT') : '—';
-  setStatus(true, 'aggiornato ' + genAt);
-  document.getElementById('genTime').textContent = genAt;
-
-  // raggruppa per data
-  const byDate = {};
-  records.forEach(r => {
-    if (!byDate[r.date]) byDate[r.date] = { AO: null, AUSL: null };
-    byDate[r.date][r.tipo] = r;
+function switchMain(t){
+  ['sospese','evase'].forEach(k=>{
+    document.getElementById('mt-'+k)?.classList.toggle('active',k===t);
+    document.getElementById('pp-'+k)?.classList.toggle('active',k===t);
   });
-  const dates = Object.keys(byDate).sort();
-  const lastDate = dates[dates.length - 1];
-  const lastAO   = byDate[lastDate]?.AO;
-  const lastAUSL = byDate[lastDate]?.AUSL;
-  const totAO    = lastAO?.totAll || 0;
-  const totAUSL  = lastAUSL?.totAll || 0;
-  const totOggi  = totAO + totAUSL;
+}
 
-  let delta = null;
-  if (dates.length > 1) {
-    const prev = dates[dates.length - 2];
-    delta = totOggi - ((byDate[prev]?.AO?.totAll||0) + (byDate[prev]?.AUSL?.totAll||0));
+async function init(){
+  const data=await loadData();
+  if(!data){
+    status(false,'dati.json non trovato');
+    document.getElementById('root').innerHTML='<div class="error-box"><strong>Impossibile caricare i dati.</strong><br>Il file <code>dati.json</code> non è presente nel repository.<br>Dalla console locale, clicca <strong>"↙ Aggiorna dashboard"</strong> e carica il file su GitHub.</div>';
+    return;
   }
+  const rec=(data.records||[]).filter(r=>r.totAll>0);
+  const eva=(data.evase||[]).filter(r=>r.totEvase>0);
+  const ga=data.generatedAt?new Date(data.generatedAt).toLocaleString('it-IT'):'—';
+  status(true,'aggiornato '+ga);
+  document.getElementById('genTime').textContent=ga;
 
-  const deltaCard = delta !== null ? `
-    <div class="metric-card ${delta > 0 ? 'delta-pos' : 'delta-neg'} fadein">
-      <div class="lbl">Variazione</div>
-      <div class="val">${delta > 0 ? '+' : ''}${delta}</div>
-      <div class="sub">rispetto a ${dates[dates.length-2]}</div>
-    </div>` : '';
-
-  // ── scrivanie helper ──
-  function buildScrivaniaTable(tipo) {
-    const recs = records.filter(r => r.tipo === tipo);
-    if (!recs.length) return '<p style="font-size:13px;color:var(--text3);padding:8px 0">Nessun dato.</p>';
-    const last = [...recs].sort((a,b) => b.date.localeCompare(a.date))[0];
-    const sorted = [...(last.scrivanie||[])].sort((a,b) => b.vtot - a.vtot);
-    if (!sorted.length) return '<p style="font-size:13px;color:var(--text3);padding:8px 0">Nessun dato.</p>';
-    return `<table>
-      <thead><tr><th>Scrivania</th><th>&lt;7g</th><th>7-13g</th><th>14-29g</th><th>≥30g</th><th>Totale</th></tr></thead>
-      <tbody>${sorted.map(s => `<tr>
-        <td style="font-family:'DM Mono',monospace;font-size:12px">${s.label}</td>
-        <td class="num">${s.v7||'—'}</td><td class="num">${s.v713||'—'}</td>
-        <td class="num">${s.v1429||'—'}</td><td class="num">${s.v30||'—'}</td>
-        <td class="num bold">${s.vtot}</td>
-      </tr>`).join('')}</tbody>
-    </table>`;
-  }
-
-  // ── storico ──
-  const sortedRecs = [...records].sort((a,b) => b.date.localeCompare(a.date));
-  const summaryRows = sortedRecs.map(r => {
-    const bm = r.totAll || 1;
-    return `<tr>
-      <td><span class="badge ${r.tipo.toLowerCase()}">${r.tipo}</span></td>
-      <td class="num">${r.date}</td>
-      <td class="num">${r.tot7}</td><td class="num">${r.tot713}</td>
-      <td class="num">${r.tot1429}</td><td class="num">${r.tot30}</td>
-      <td class="num bold">${r.totAll}</td>
-      <td><div class="fascia-bar">
-        <div class="fb f1" style="width:${Math.round(r.tot7/bm*60)}px"></div>
-        <div class="fb f2" style="width:${Math.round(r.tot713/bm*60)}px"></div>
-        <div class="fb f3" style="width:${Math.round(r.tot1429/bm*60)}px"></div>
-        <div class="fb f4" style="width:${Math.round(r.tot30/bm*60)}px"></div>
-      </div></td>
-    </tr>`;
-  }).join('');
-
-  const aoScr  = records.filter(r => r.tipo==='AO');
-  const auslScr= records.filter(r => r.tipo==='AUSL');
-
-  document.getElementById('root').innerHTML = `
-    <div class="section-label fadein">Situazione aggiornata — ${lastDate}</div>
-    <div class="metrics-grid fadein">
-      <div class="metric-card tot"><div class="lbl">Totale sospese</div><div class="val">${totOggi}</div><div class="sub">AO + AUSL</div></div>
-      <div class="metric-card ao"><div class="lbl">AO</div><div class="val">${totAO}</div><div class="sub">${lastAO ? lastAO.scrivanie.length+' scrivanie' : 'nessun dato'}</div></div>
-      <div class="metric-card ausl"><div class="lbl">AUSL</div><div class="val">${totAUSL}</div><div class="sub">${lastAUSL ? lastAUSL.scrivanie.length+' scrivanie' : 'nessun dato'}</div></div>
-      ${deltaCard}
+  document.getElementById('root').innerHTML=`
+    <div class="main-tabs">
+      <div class="main-tab active" id="mt-sospese" onclick="switchMain('sospese')">Fatture sospese <span class="tc">${rec.length}</span></div>
+      <div class="main-tab" id="mt-evase" onclick="switchMain('evase')">Fatture evase <span class="tc">${eva.length}</span></div>
     </div>
+    <div class="tab-panel active" id="pp-sospese"><div id="rs"></div></div>
+    <div class="tab-panel" id="pp-evase"><div id="re"></div></div>`;
 
+  buildSospese(rec);
+  buildEvase(eva);
+}
+
+function buildSospese(rec){
+  if(!rec.length){document.getElementById('rs').innerHTML='<div class="empty-state"><h3>Nessun dato</h3></div>';return;}
+  const bd={};
+  rec.forEach(r=>{if(!bd[r.date])bd[r.date]={AO:null,AUSL:null};bd[r.date][r.tipo]=r;});
+  const dates=Object.keys(bd).sort();
+  const ld=dates[dates.length-1];
+  const lAO=bd[ld]?.AO,lAUSL=bd[ld]?.AUSL;
+  const tAO=lAO?.totAll||0,tAUSL=lAUSL?.totAll||0,tot=tAO+tAUSL;
+  let delta=null;
+  if(dates.length>1){const p=dates[dates.length-2];delta=tot-((bd[p]?.AO?.totAll||0)+(bd[p]?.AUSL?.totAll||0));}
+  const dCard=delta!==null?`<div class="metric-card ${delta>0?'delta-pos':'delta-neg'} fadein"><div class="lbl">Variazione</div><div class="val">${delta>0?'+':''}${delta}</div><div class="sub">vs ${dates[dates.length-2]}</div></div>`:'';
+
+  function scrTab(tipo){
+    const recs=rec.filter(r=>r.tipo===tipo);
+    if(!recs.length)return'<p style="font-size:13px;color:var(--text3);padding:8px 0">Nessun dato.</p>';
+    const last=[...recs].sort((a,b)=>b.date.localeCompare(a.date))[0];
+    return`<table><thead><tr><th>Scrivania</th><th>&lt;7g</th><th>7-13g</th><th>14-29g</th><th>≥30g</th><th>Totale</th></tr></thead><tbody>${[...(last.scrivanie||[])].sort((a,b)=>b.vtot-a.vtot).map(s=>`<tr><td style="font-family:'DM Mono',monospace;font-size:12px">${s.label}</td><td class="num">${s.v7||'—'}</td><td class="num">${s.v713||'—'}</td><td class="num">${s.v1429||'—'}</td><td class="num">${s.v30||'—'}</td><td class="num bold">${s.vtot}</td></tr>`).join('')}</tbody></table>`;
+  }
+
+  const sRows=[...rec].sort((a,b)=>b.date.localeCompare(a.date)).map(r=>{const bm=r.totAll||1;return`<tr><td><span class="badge ${r.tipo.toLowerCase()}">${r.tipo}</span></td><td class="num">${r.date}</td><td class="num">${r.tot7}</td><td class="num">${r.tot713}</td><td class="num">${r.tot1429}</td><td class="num">${r.tot30}</td><td class="num bold">${r.totAll}</td><td><div class="fascia-bar"><div class="fb f1" style="width:${Math.round(r.tot7/bm*60)}px"></div><div class="fb f2" style="width:${Math.round(r.tot713/bm*60)}px"></div><div class="fb f3" style="width:${Math.round(r.tot1429/bm*60)}px"></div><div class="fb f4" style="width:${Math.round(r.tot30/bm*60)}px"></div></div></td></tr>`;}).join('');
+  const aoR=rec.filter(r=>r.tipo==='AO'),auslR=rec.filter(r=>r.tipo==='AUSL');
+
+  document.getElementById('rs').innerHTML=`
+    <div class="section-label fadein">Situazione aggiornata — ${ld}</div>
+    <div class="metrics-grid fadein">
+      <div class="metric-card tot"><div class="lbl">Totale sospese</div><div class="val">${tot}</div><div class="sub">AO + AUSL</div></div>
+      <div class="metric-card ao"><div class="lbl">AO</div><div class="val">${tAO}</div><div class="sub">${lAO?lAO.scrivanie.length+' scrivanie':'nessun dato'}</div></div>
+      <div class="metric-card ausl"><div class="lbl">AUSL</div><div class="val">${tAUSL}</div><div class="sub">${lAUSL?lAUSL.scrivanie.length+' scrivanie':'nessun dato'}</div></div>
+      ${dCard}
+    </div>
     <div class="fadein">
       <div class="period-bar">
-        <button class="period-btn active" id="pb7"   onclick="setPeriod(7)">7g</button>
-        <button class="period-btn"        id="pb30"  onclick="setPeriod(30)">30g</button>
-        <button class="period-btn"        id="pb90"  onclick="setPeriod(90)">3 mesi</button>
-        <button class="period-btn"        id="pbAll" onclick="setPeriod(null)">tutto</button>
+        <button class="period-btn ${period===7?'active':''}" id="pb7" onclick="setPer(7)">7g</button>
+        <button class="period-btn ${period===30?'active':''}" id="pb30" onclick="setPer(30)">30g</button>
+        <button class="period-btn ${period===90?'active':''}" id="pb90" onclick="setPer(90)">3 mesi</button>
+        <button class="period-btn ${period===null?'active':''}" id="pbA" onclick="setPer(null)">tutto</button>
       </div>
       <div class="charts-row">
-        <div class="chart-card">
-          <div class="ct">AO vs AUSL per giorno</div>
-          <div class="legend"><span><span class="sq" style="background:#1a5fa8"></span>AO</span><span><span class="sq" style="background:#0d6e50"></span>AUSL</span></div>
-          <div style="position:relative;height:190px"><canvas id="cBar"></canvas></div>
-        </div>
-        <div class="chart-card">
-          <div class="ct">Andamento nel tempo</div>
-          <div class="legend">
-            <span><span class="sq" style="background:#b85c00"></span>Totale</span>
-            <span><span class="sq" style="background:#1a5fa8"></span>AO</span>
-            <span><span class="sq" style="background:#0d6e50"></span>AUSL</span>
-          </div>
-          <div style="position:relative;height:190px"><canvas id="cLine"></canvas></div>
-        </div>
+        <div class="chart-card"><div class="ct">AO vs AUSL per giorno</div><div class="legend"><span><span class="sq" style="background:#1a5fa8"></span>AO</span><span><span class="sq" style="background:#0d6e50"></span>AUSL</span></div><div style="position:relative;height:190px"><canvas id="cBar"></canvas></div></div>
+        <div class="chart-card"><div class="ct">Andamento nel tempo</div><div class="legend"><span><span class="sq" style="background:#b85c00"></span>Totale</span><span><span class="sq" style="background:#1a5fa8"></span>AO</span><span><span class="sq" style="background:#0d6e50"></span>AUSL</span></div><div style="position:relative;height:190px"><canvas id="cLine"></canvas></div></div>
       </div>
     </div>
+    <div class="accordion fadein"><div class="accordion-header" onclick="togS()"><div class="accordion-title">Storico giorni <span class="accordion-count">${rec.length} file</span></div><span class="accordion-arrow" id="arrS">▼</span></div><div class="accordion-body" id="bodyS"><table style="margin-top:8px"><thead><tr><th>Tipo</th><th>Data</th><th>&lt;7g</th><th>7-13g</th><th>14-29g</th><th>≥30g</th><th>Totale</th><th>Distribuzione</th></tr></thead><tbody>${sRows}</tbody></table></div></div>
+    <div class="tcard fadein"><div class="ct"><span>Scrivanie — ultimo giorno</span></div>
+      <div class="tabs"><div class="tab ${tabS==='ao'?'active':''}" onclick="swS('ao')">AO (${aoR.length>0?[...aoR].sort((a,b)=>b.date.localeCompare(a.date))[0].scrivanie.length:0} scrivanie)</div><div class="tab ${tabS==='ausl'?'active':''}" onclick="swS('ausl')">AUSL (${auslR.length>0?[...auslR].sort((a,b)=>b.date.localeCompare(a.date))[0].scrivanie.length:0} scrivanie)</div></div>
+      <div id="ss-ao" style="${tabS!=='ao'?'display:none':''}">${scrTab('AO')}</div>
+      <div id="ss-ausl" style="${tabS!=='ausl'?'display:none':''}">${scrTab('AUSL')}</div>
+    </div>`;
 
-    <div class="accordion fadein" id="accStorico">
-      <div class="accordion-header" onclick="toggleStorico()">
-        <div class="accordion-title">Storico giorni <span class="accordion-count">${records.length} file</span></div>
-        <span class="accordion-arrow" id="accArrow">▼</span>
-      </div>
-      <div class="accordion-body" id="accBody">
-        <table style="margin-top:8px">
-          <thead><tr><th>Tipo</th><th>Data</th><th>&lt;7g</th><th>7-13g</th><th>14-29g</th><th>≥30g</th><th>Totale</th><th>Distribuzione</th></tr></thead>
-          <tbody>${summaryRows}</tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="tcard fadein">
-      <div class="ct"><span>Scrivanie — ultimo giorno</span></div>
-      <div class="tabs">
-        <div class="tab ${activeTab==='ao'?'active':''}" onclick="switchTab('ao')">AO (${aoScr.length>0?[...aoScr].sort((a,b)=>b.date.localeCompare(a.date))[0].scrivanie.length:0} scrivanie)</div>
-        <div class="tab ${activeTab==='ausl'?'active':''}" onclick="switchTab('ausl')">AUSL (${auslScr.length>0?[...auslScr].sort((a,b)=>b.date.localeCompare(a.date))[0].scrivanie.length:0} scrivanie)</div>
-      </div>
-      <div id="scr-ao" style="${activeTab!=='ao'?'display:none':''}">${buildScrivaniaTable('AO')}</div>
-      <div id="scr-ausl" style="${activeTab!=='ausl'?'display:none':''}">${buildScrivaniaTable('AUSL')}</div>
-    </div>
-  `;
-
-  // salva byDate e dates globalmente per renderCharts
-  window._dash = { byDate, dates };
-  renderCharts();
+  window._bd=bd;window._dates=dates;
+  drawCharts();
 }
 
-function renderCharts() {
-  if (!window._dash) return;
-  const { byDate, dates } = window._dash;
+function drawCharts(){
+  if(!window._bd||!window._dates)return;
+  const bd=window._bd,dates=window._dates;
+  if(cBar)cBar.destroy();if(cLine)cLine.destroy();
+  let fd=dates;
+  if(period!==null){const c=new Date();c.setDate(c.getDate()-period);const cs=c.toISOString().slice(0,10);fd=dates.filter(d=>d>=cs);if(!fd.length)fd=dates.slice(-2);}
+  const lb=fd.map(d=>d.slice(5));
+  const aV=fd.map(d=>bd[d]?.AO?.totAll||null);
+  const uV=fd.map(d=>bd[d]?.AUSL?.totAll||null);
+  const tV=fd.map((d,i)=>(aV[i]||0)+(uV[i]||0));
+  cBar=new Chart(document.getElementById('cBar'),{type:'bar',data:{labels:lb,datasets:[{label:'AO',data:aV,backgroundColor:'#1a5fa8',borderRadius:3},{label:'AUSL',data:uV,backgroundColor:'#0d6e50',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},color:'#a09d96'},grid:{display:false}},y:{ticks:{font:{size:10},color:'#a09d96'},grid:{color:'rgba(0,0,0,.06)'}}}}});
+  cLine=new Chart(document.getElementById('cLine'),{type:'line',data:{labels:lb,datasets:[{label:'T',data:tV,borderColor:'#b85c00',backgroundColor:'rgba(184,92,0,.07)',tension:.35,pointRadius:4,fill:true},{label:'AO',data:aV,borderColor:'#1a5fa8',backgroundColor:'transparent',tension:.35,pointRadius:3,borderDash:[4,3]},{label:'AUSL',data:uV,borderColor:'#0d6e50',backgroundColor:'transparent',tension:.35,pointRadius:3,borderDash:[4,3]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},color:'#a09d96'},grid:{display:false}},y:{ticks:{font:{size:10},color:'#a09d96'},grid:{color:'rgba(0,0,0,.06)'}}}}});
+}
 
-  if (chartBar) chartBar.destroy();
-  if (chartLine) chartLine.destroy();
+function setPer(p){period=p;[7,30,90,null].forEach(v=>{const id=v===null?'pbA':'pb'+v;document.getElementById(id)?.classList.toggle('active',v===p);});drawCharts();}
+function swS(t){tabS=t;['ao','ausl'].forEach(k=>{document.querySelector('#pp-sospese .tab:nth-child('+(k==='ao'?1:2)+')')?.classList.toggle('active',k===t);const el=document.getElementById('ss-'+k);if(el)el.style.display=k===t?'':'none';});}
+function togS(){document.getElementById('bodyS').classList.toggle('open');document.getElementById('arrS').classList.toggle('open');}
 
-  let filteredDates = dates;
-  if (activePeriod !== null) {
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - activePeriod);
-    const cutoffStr = cutoff.toISOString().slice(0,10);
-    filteredDates = dates.filter(d => d >= cutoffStr);
-    if (!filteredDates.length) filteredDates = dates.slice(-2);
+function buildEvase(eva){
+  if(!eva.length){document.getElementById('re').innerHTML='<div class="empty-state"><h3>Nessun dato disponibile</h3><p>Carica i file mensili dalla console per popolare questa sezione.</p></div>';return;}
+  const mesi=[...new Set(eva.map(r=>r.mese))].sort();
+  const lm=mesi[mesi.length-1];
+  const lAO=eva.filter(r=>r.mese===lm&&r.tipo==='AO')[0];
+  const lAUSL=eva.filter(r=>r.mese===lm&&r.tipo==='AUSL')[0];
+  const tAO=lAO?.totEvase||0,tAUSL=lAUSL?.totEvase||0,tot=tAO+tAUSL;
+  const mAO=lAO?.mediaGiorni||0,mAUSL=lAUSL?.mediaGiorni||0;
+  const mTot=tot>0?Math.round(((mAO*tAO+mAUSL*tAUSL)/tot)*10)/10:0;
+  const[my,mm]=lm.split('-');
+  const meseL=new Date(my,mm-1,1).toLocaleString('it-IT',{month:'long',year:'numeric'});
+
+  function eTab(tipo){
+    const recs=eva.filter(r=>r.tipo===tipo);
+    if(!recs.length)return'<p style="font-size:13px;color:var(--text3);padding:8px 0">Nessun dato.</p>';
+    const last=[...recs].sort((a,b)=>b.mese.localeCompare(a.mese))[0];
+    return`<table><thead><tr><th>Scrivania</th><th>Fatture evase</th><th>Media giorni</th></tr></thead><tbody>${[...(last.scrivanie||[])].sort((a,b)=>b.cnt-a.cnt).map(s=>`<tr><td style="font-family:'DM Mono',monospace;font-size:12px">${s.label}</td><td class="num bold">${s.cnt}</td><td class="num" style="color:${s.media<=3?'#0d6e50':s.media<=7?'#b85c00':'#c0392b'}">${s.media}g</td></tr>`).join('')}</tbody></table>`;
   }
-  const lbls     = filteredDates.map(d => d.slice(5));
-  const aoVals   = filteredDates.map(d => byDate[d]?.AO?.totAll || null);
-  const auslVals = filteredDates.map(d => byDate[d]?.AUSL?.totAll || null);
-  const totVals  = filteredDates.map((d,i) => (aoVals[i]||0)+(auslVals[i]||0));
 
-  chartBar = new Chart(document.getElementById('cBar'), {
-    type: 'bar',
-    data: { labels: lbls, datasets: [
-      { label:'AO',   data: aoVals,   backgroundColor:'#1a5fa8', borderRadius:3 },
-      { label:'AUSL', data: auslVals, backgroundColor:'#0d6e50', borderRadius:3 }
-    ]},
-    options: { responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
-      scales:{x:{ticks:{font:{size:10},color:'#a09d96'},grid:{display:false}},
-              y:{ticks:{font:{size:10},color:'#a09d96'},grid:{color:'rgba(0,0,0,.06)'}}} }
-  });
-  chartLine = new Chart(document.getElementById('cLine'), {
-    type: 'line',
-    data: { labels: lbls, datasets: [
-      { label:'Totale', data:totVals,  borderColor:'#b85c00', backgroundColor:'rgba(184,92,0,.07)', tension:.35, pointRadius:4, fill:true },
-      { label:'AO',     data:aoVals,   borderColor:'#1a5fa8', backgroundColor:'transparent', tension:.35, pointRadius:3, borderDash:[4,3] },
-      { label:'AUSL',   data:auslVals, borderColor:'#0d6e50', backgroundColor:'transparent', tension:.35, pointRadius:3, borderDash:[4,3] }
-    ]},
-    options: { responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
-      scales:{x:{ticks:{font:{size:10},color:'#a09d96'},grid:{display:false}},
-              y:{ticks:{font:{size:10},color:'#a09d96'},grid:{color:'rgba(0,0,0,.06)'}}} }
-  });
+  const bmAO={},bmAUSL={},bmdAO={},bmdAUSL={};
+  eva.forEach(r=>{if(r.tipo==='AO'){bmAO[r.mese]=r.totEvase;bmdAO[r.mese]=r.mediaGiorni;}if(r.tipo==='AUSL'){bmAUSL[r.mese]=r.totEvase;bmdAUSL[r.mese]=r.mediaGiorni;}});
+  const tm=[...new Set([...Object.keys(bmAO),...Object.keys(bmAUSL)])].sort();
+  const lb=tm.map(m=>{const[y,mm]=m.split('-');return new Date(y,mm-1,1).toLocaleString('it-IT',{month:'short'})+' '+y;});
+  const aoR=eva.filter(r=>r.tipo==='AO'),auslR=eva.filter(r=>r.tipo==='AUSL');
+
+  document.getElementById('re').innerHTML=`
+    <div class="section-label fadein">Fatture evase — ${meseL}</div>
+    <div class="metrics-grid fadein">
+      <div class="metric-card tot"><div class="lbl">Totale evase</div><div class="val">${tot}</div><div class="sub">AO + AUSL · ${meseL}</div></div>
+      <div class="metric-card ao"><div class="lbl">AO</div><div class="val">${tAO}</div><div class="sub">media ${mAO}g</div></div>
+      <div class="metric-card ausl"><div class="lbl">AUSL</div><div class="val">${tAUSL}</div><div class="sub">media ${mAUSL}g</div></div>
+      <div class="metric-card media"><div class="lbl">Media giorni</div><div class="val">${mTot}</div><div class="sub">registrazione complessiva</div></div>
+    </div>
+    <div class="charts-row fadein">
+      <div class="chart-card"><div class="ct">Trend evase nel tempo</div><div class="legend"><span><span class="sq" style="background:#b85c00"></span>Totale</span><span><span class="sq" style="background:#1a5fa8"></span>AO</span><span><span class="sq" style="background:#0d6e50"></span>AUSL</span></div><div style="position:relative;height:190px"><canvas id="cET"></canvas></div></div>
+      <div class="chart-card"><div class="ct">Media giorni registrazione</div><div class="legend"><span><span class="sq" style="background:#1a5fa8"></span>AO</span><span><span class="sq" style="background:#0d6e50"></span>AUSL</span></div><div style="position:relative;height:190px"><canvas id="cED"></canvas></div></div>
+    </div>
+    <div class="tcard fadein"><div class="ct"><span>Scrivanie — ${meseL}</span></div>
+      <div class="tabs"><div class="tab active" id="et-ao" onclick="swE('ao')">AO (${aoR.length>0?[...aoR].sort((a,b)=>b.mese.localeCompare(a.mese))[0].scrivanie.length:0} scrivanie)</div><div class="tab" id="et-ausl" onclick="swE('ausl')">AUSL (${auslR.length>0?[...auslR].sort((a,b)=>b.mese.localeCompare(a.mese))[0].scrivanie.length:0} scrivanie)</div></div>
+      <div id="es-ao">${eTab('AO')}</div>
+      <div id="es-ausl" style="display:none">${eTab('AUSL')}</div>
+    </div>`;
+
+  if(cET)cET.destroy();if(cED)cED.destroy();
+  const aV=tm.map(m=>bmAO[m]||null),uV=tm.map(m=>bmAUSL[m]||null),tV=tm.map((m,i)=>(aV[i]||0)+(uV[i]||0));
+  cET=new Chart(document.getElementById('cET'),{type:'line',data:{labels:lb,datasets:[{label:'T',data:tV,borderColor:'#b85c00',backgroundColor:'rgba(184,92,0,.07)',tension:.35,pointRadius:4,fill:true},{label:'AO',data:aV,borderColor:'#1a5fa8',backgroundColor:'transparent',tension:.35,pointRadius:3,borderDash:[4,3]},{label:'AUSL',data:uV,borderColor:'#0d6e50',backgroundColor:'transparent',tension:.35,pointRadius:3,borderDash:[4,3]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},color:'#a09d96'},grid:{display:false}},y:{ticks:{font:{size:10},color:'#a09d96'},grid:{color:'rgba(0,0,0,.06)'}}}}});
+  cED=new Chart(document.getElementById('cED'),{type:'bar',data:{labels:lb,datasets:[{label:'AO',data:tm.map(m=>bmdAO[m]||null),backgroundColor:'#1a5fa8',borderRadius:3},{label:'AUSL',data:tm.map(m=>bmdAUSL[m]||null),backgroundColor:'#0d6e50',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},color:'#a09d96'},grid:{display:false}},y:{ticks:{font:{size:10},color:'#a09d96'},grid:{color:'rgba(0,0,0,.06)'}}}}});
 }
 
-function switchTab(t) {
-  activeTab = t;
-  ['ao','ausl'].forEach(k => {
-    document.querySelector(`.tab:nth-child(${k==='ao'?1:2})`)?.classList.toggle('active', k===t);
-    const el = document.getElementById('scr-'+k);
-    if (el) el.style.display = k===t ? '' : 'none';
-  });
-}
-
-function setPeriod(p) {
-  activePeriod = p;
-  [7,30,90,null].forEach(v => {
-    const id = v===null?'pbAll':'pb'+v;
-    document.getElementById(id)?.classList.toggle('active', v===p);
-  });
-  renderCharts();
-}
-
-function toggleStorico() {
-  const body = document.getElementById('accBody');
-  const arrow = document.getElementById('accArrow');
-  body.classList.toggle('open');
-  arrow.classList.toggle('open');
-}
+function swE(t){tabE=t;['ao','ausl'].forEach(k=>{document.getElementById('et-'+k)?.classList.toggle('active',k===t);const el=document.getElementById('es-'+k);if(el)el.style.display=k===t?'':'none';});}
 
 init();
 </script>
