@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-08T05:47:07.557Z",
+  "generatedAt": "2026-04-08T13:57:40.883Z",
   "records": [
     {
       "name": "2026_03_12 BOZZA ANNO 2026_AO.xlsx",
@@ -2566,6 +2566,174 @@
           "v1429": 0,
           "v30": 0,
           "vtot": 1
+        }
+      ]
+    },
+    {
+      "name": "2026_04_08  BOZZA ANNO 2026_AO.xlsx",
+      "tipo": "AO",
+      "date": "2026-04-08",
+      "tot7": 300,
+      "tot713": 98,
+      "tot1429": 7,
+      "tot30": 1,
+      "totAll": 406,
+      "scrivanie": [
+        {
+          "label": "AZIENDE SANITARIE_AZIENDE SANITARIE",
+          "v7": 1,
+          "v713": 2,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 3
+        },
+        {
+          "label": "BENI E SERVIZI_BENI E SERVIZI",
+          "v7": 32,
+          "v713": 52,
+          "v1429": 5,
+          "v30": 0,
+          "vtot": 89
+        },
+        {
+          "label": "ECONOMATO_ECONOMATO",
+          "v7": 15,
+          "v713": 5,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 20
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 1_FARMACI E DISPOSITIVI 1",
+          "v7": 76,
+          "v713": 6,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 82
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 2_FARMACI E DISPOSITIVI 2",
+          "v7": 32,
+          "v713": 11,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 43
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 3_FARMACI E DISPOSITIVI 3",
+          "v7": 68,
+          "v713": 11,
+          "v1429": 1,
+          "v30": 0,
+          "vtot": 80
+        },
+        {
+          "label": "FATTURE ANNO 2023_FATTURE ANNO 2023",
+          "v7": 0,
+          "v713": 2,
+          "v1429": 0,
+          "v30": 1,
+          "vtot": 3
+        },
+        {
+          "label": "FATTURE ESTERE_FATTURE ESTERE",
+          "v7": 1,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 1
+        },
+        {
+          "label": "LP _LIBERI PROFESSIONISTI",
+          "v7": 21,
+          "v713": 3,
+          "v1429": 1,
+          "v30": 0,
+          "vtot": 25
+        },
+        {
+          "label": "REGAUT_Registrazione automatica",
+          "v7": 54,
+          "v713": 6,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 60
+        }
+      ]
+    },
+    {
+      "name": "2026_04_08  BOZZA ANNO 2026_AUSL.xlsx",
+      "tipo": "AUSL",
+      "date": "2026-04-08",
+      "tot7": 387,
+      "tot713": 84,
+      "tot1429": 0,
+      "tot30": 0,
+      "totAll": 471,
+      "scrivanie": [
+        {
+          "label": "14_ALESSIA MAZZONELLO",
+          "v7": 57,
+          "v713": 15,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 72
+        },
+        {
+          "label": "15_FARMACI",
+          "v7": 68,
+          "v713": 11,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 79
+        },
+        {
+          "label": "19_ LIBERI PROFESSIONISTI",
+          "v7": 24,
+          "v713": 10,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 34
+        },
+        {
+          "label": "21_GLORIA MORCIANO",
+          "v7": 19,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 19
+        },
+        {
+          "label": "26_SOCIO SANITARIO",
+          "v7": 59,
+          "v713": 8,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 67
+        },
+        {
+          "label": "28_FARMACIE CONVENZIONATE",
+          "v7": 2,
+          "v713": 3,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 5
+        },
+        {
+          "label": "3883_SUCCI CIMENTINI FIORELLA",
+          "v7": 130,
+          "v713": 16,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 146
+        },
+        {
+          "label": "REGAUT_Registrazione automatica",
+          "v7": 28,
+          "v713": 21,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 49
         }
       ]
     }
