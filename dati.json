@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-11T13:49:33.226Z",
+  "generatedAt": "2026-05-13T13:52:54.274Z",
   "records": [
     {
       "name": "2026_03_12 BOZZA ANNO 2026_AO.xlsx",
@@ -6270,6 +6270,174 @@
           "v1429": 0,
           "v30": 0,
           "vtot": 4
+        }
+      ]
+    },
+    {
+      "name": "2026_05_13  BOZZA ANNO 2026_AO.xlsx",
+      "tipo": "AO",
+      "date": "2026-05-13",
+      "tot7": 265,
+      "tot713": 44,
+      "tot1429": 1,
+      "tot30": 1,
+      "totAll": 311,
+      "scrivanie": [
+        {
+          "label": "AZIENDE SANITARIE_AZIENDE SANITARIE",
+          "v7": 1,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 1
+        },
+        {
+          "label": "BENI E SERVIZI_BENI E SERVIZI",
+          "v7": 33,
+          "v713": 27,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 60
+        },
+        {
+          "label": "ECONOMATO_ECONOMATO",
+          "v7": 7,
+          "v713": 6,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 13
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 1_FARMACI E DISPOSITIVI 1",
+          "v7": 60,
+          "v713": 3,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 63
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 2_FARMACI E DISPOSITIVI 2",
+          "v7": 33,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 33
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 3_FARMACI E DISPOSITIVI 3",
+          "v7": 66,
+          "v713": 1,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 67
+        },
+        {
+          "label": "FATTURE ANNO 2023_FATTURE ANNO 2023",
+          "v7": 0,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 1,
+          "vtot": 1
+        },
+        {
+          "label": "FATTURE ESTERE_FATTURE ESTERE",
+          "v7": 2,
+          "v713": 1,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 3
+        },
+        {
+          "label": "INTERESSI_INTERESSI",
+          "v7": 0,
+          "v713": 0,
+          "v1429": 1,
+          "v30": 0,
+          "vtot": 1
+        },
+        {
+          "label": "LP _LIBERI PROFESSIONISTI",
+          "v7": 14,
+          "v713": 6,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 20
+        },
+        {
+          "label": "REGAUT_Registrazione automatica",
+          "v7": 49,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 49
+        }
+      ]
+    },
+    {
+      "name": "2026_05_13  BOZZA ANNO 2026_AUSL.xlsx",
+      "tipo": "AUSL",
+      "date": "2026-05-13",
+      "tot7": 254,
+      "tot713": 7,
+      "tot1429": 0,
+      "tot30": 0,
+      "totAll": 261,
+      "scrivanie": [
+        {
+          "label": "13_RICCIARDELLA ANTONIETTA",
+          "v7": 2,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 2
+        },
+        {
+          "label": "14_ALESSIA MAZZONELLO",
+          "v7": 41,
+          "v713": 1,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 42
+        },
+        {
+          "label": "15_FARMACI",
+          "v7": 24,
+          "v713": 2,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 26
+        },
+        {
+          "label": "19_ LIBERI PROFESSIONISTI",
+          "v7": 11,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 11
+        },
+        {
+          "label": "21_GLORIA MORCIANO",
+          "v7": 18,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 18
+        },
+        {
+          "label": "26_SOCIO SANITARIO",
+          "v7": 3,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 3
+        },
+        {
+          "label": "3883_SUCCI CIMENTINI FIORELLA",
+          "v7": 155,
+          "v713": 4,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 159
         }
       ]
     }
