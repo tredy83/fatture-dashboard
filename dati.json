@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T14:12:37.489Z",
+  "generatedAt": "2026-05-21T13:52:59.654Z",
   "records": [
     {
       "name": "2026_03_12 BOZZA ANNO 2026_AO.xlsx",
@@ -7166,6 +7166,182 @@
           "v1429": 0,
           "v30": 0,
           "vtot": 2
+        }
+      ]
+    },
+    {
+      "name": "2026_05_21  BOZZA ANNO 2026_AO.xlsx",
+      "tipo": "AO",
+      "date": "2026-05-21",
+      "tot7": 314,
+      "tot713": 60,
+      "tot1429": 1,
+      "tot30": 1,
+      "totAll": 376,
+      "scrivanie": [
+        {
+          "label": "AZIENDE SANITARIE_AZIENDE SANITARIE",
+          "v7": 1,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 1
+        },
+        {
+          "label": "BENI E SERVIZI_BENI E SERVIZI",
+          "v7": 26,
+          "v713": 14,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 40
+        },
+        {
+          "label": "ECONOMATO_ECONOMATO",
+          "v7": 11,
+          "v713": 4,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 15
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 1_FARMACI E DISPOSITIVI 1",
+          "v7": 117,
+          "v713": 12,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 129
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 2_FARMACI E DISPOSITIVI 2",
+          "v7": 31,
+          "v713": 3,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 34
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 3_FARMACI E DISPOSITIVI 3",
+          "v7": 57,
+          "v713": 23,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 80
+        },
+        {
+          "label": "FATTURE ESTERE_FATTURE ESTERE",
+          "v7": 2,
+          "v713": 4,
+          "v1429": 1,
+          "v30": 0,
+          "vtot": 7
+        },
+        {
+          "label": "INTERESSI_INTERESSI",
+          "v7": 0,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 1,
+          "vtot": 1
+        },
+        {
+          "label": "LP _LIBERI PROFESSIONISTI",
+          "v7": 1,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 1
+        },
+        {
+          "label": "REGAUT_Registrazione automatica",
+          "v7": 68,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 68
+        }
+      ]
+    },
+    {
+      "name": "2026_05_21  BOZZA ANNO 2026_AUSL.xlsx",
+      "tipo": "AUSL",
+      "date": "2026-05-21",
+      "tot7": 631,
+      "tot713": 23,
+      "tot1429": 0,
+      "tot30": 0,
+      "totAll": 654,
+      "scrivanie": [
+        {
+          "label": "13_RICCIARDELLA ANTONIETTA",
+          "v7": 17,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 17
+        },
+        {
+          "label": "14_ALESSIA MAZZONELLO",
+          "v7": 50,
+          "v713": 5,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 55
+        },
+        {
+          "label": "15_FARMACI",
+          "v7": 64,
+          "v713": 7,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 71
+        },
+        {
+          "label": "21_GLORIA MORCIANO",
+          "v7": 2,
+          "v713": 6,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 8
+        },
+        {
+          "label": "26_SOCIO SANITARIO",
+          "v7": 8,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 8
+        },
+        {
+          "label": "28_FARMACIE CONVENZIONATE",
+          "v7": 324,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 324
+        },
+        {
+          "label": "3883_SUCCI CIMENTINI FIORELLA",
+          "v7": 164,
+          "v713": 5,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 169
+        },
+        {
+          "label": "5_GLORIA MORCIANO",
+          "v7": 1,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 1
+        },
+        {
+          "label": "REGAUT_Registrazione automatica",
+          "v7": 1,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 1
         }
       ]
     }
