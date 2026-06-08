@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T13:52:59.654Z",
+  "generatedAt": "2026-06-08T13:50:39.184Z",
   "records": [
     {
       "name": "2026_03_12 BOZZA ANNO 2026_AO.xlsx",
@@ -7344,6 +7344,90 @@
           "vtot": 1
         }
       ]
+    },
+    {
+      "name": "2026_06_08  BOZZA ANNO 2026_AUSL.xlsx",
+      "tipo": "AUSL",
+      "date": "2026-06-08",
+      "tot7": 373,
+      "tot713": 93,
+      "tot1429": 1,
+      "tot30": 0,
+      "totAll": 467,
+      "scrivanie": [
+        {
+          "label": "13_RICCIARDELLA ANTONIETTA",
+          "v7": 37,
+          "v713": 1,
+          "v1429": 1,
+          "v30": 0,
+          "vtot": 39
+        },
+        {
+          "label": "14_ALESSIA MAZZONELLO",
+          "v7": 60,
+          "v713": 4,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 64
+        },
+        {
+          "label": "15_FARMACI",
+          "v7": 65,
+          "v713": 3,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 68
+        },
+        {
+          "label": "19_ LIBERI PROFESSIONISTI",
+          "v7": 11,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 11
+        },
+        {
+          "label": "21_GLORIA MORCIANO",
+          "v7": 91,
+          "v713": 7,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 98
+        },
+        {
+          "label": "26_SOCIO SANITARIO",
+          "v7": 3,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 3
+        },
+        {
+          "label": "28_FARMACIE CONVENZIONATE",
+          "v7": 7,
+          "v713": 2,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 9
+        },
+        {
+          "label": "3883_SUCCI CIMENTINI FIORELLA",
+          "v7": 97,
+          "v713": 76,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 173
+        },
+        {
+          "label": "REGAUT_Registrazione automatica",
+          "v7": 2,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 2
+        }
+      ]
     }
   ],
   "evase": [
@@ -7841,6 +7925,124 @@
           "label": "REGAUT_Registrazione automatica",
           "cnt": 2195,
           "media": 3.5
+        }
+      ]
+    },
+    {
+      "name": "05_AO MAGGIO 2026.xlsx",
+      "tipo": "AO",
+      "mese": "2026-05",
+      "totEvase": 2609,
+      "mediaGiorni": 5.2,
+      "scrivanie": [
+        {
+          "label": "AZIENDE SANITARIE_AZIENDE SANITARIE",
+          "cnt": 15,
+          "media": 4.8
+        },
+        {
+          "label": "BENI E SERVIZI_BENI E SERVIZI",
+          "cnt": 114,
+          "media": 9.7
+        },
+        {
+          "label": "ECONOMATO_ECONOMATO",
+          "cnt": 174,
+          "media": 4
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 1_FARMACI E DISPOSITIVI 1",
+          "cnt": 451,
+          "media": 4.9
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 2_FARMACI E DISPOSITIVI 2",
+          "cnt": 562,
+          "media": 5.5
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 3_FARMACI E DISPOSITIVI 3",
+          "cnt": 317,
+          "media": 7.5
+        },
+        {
+          "label": "FATTURE ESTERE_FATTURE ESTERE",
+          "cnt": 1,
+          "media": 25
+        },
+        {
+          "label": "LP _LIBERI PROFESSIONISTI",
+          "cnt": 42,
+          "media": 5.7
+        },
+        {
+          "label": "PROGESTE_PROGESTE",
+          "cnt": 22,
+          "media": 1.7
+        },
+        {
+          "label": "REGAUT_Registrazione automatica",
+          "cnt": 897,
+          "media": 4.2
+        },
+        {
+          "label": "UTENZE_UTENZE",
+          "cnt": 14,
+          "media": 3.5
+        }
+      ]
+    },
+    {
+      "name": "05_AUSL MAGGIO 2026.xlsx",
+      "tipo": "AUSL",
+      "mese": "2026-05",
+      "totEvase": 5248,
+      "mediaGiorni": 3.6,
+      "scrivanie": [
+        {
+          "label": "13_RICCIARDELLA ANTONIETTA",
+          "cnt": 322,
+          "media": 3.8
+        },
+        {
+          "label": "14_ALESSIA MAZZONELLO",
+          "cnt": 227,
+          "media": 3.9
+        },
+        {
+          "label": "15_FARMACI",
+          "cnt": 279,
+          "media": 3.7
+        },
+        {
+          "label": "19_ LIBERI PROFESSIONISTI",
+          "cnt": 71,
+          "media": 4.1
+        },
+        {
+          "label": "21_GLORIA MORCIANO",
+          "cnt": 484,
+          "media": 3.3
+        },
+        {
+          "label": "26_SOCIO SANITARIO",
+          "cnt": 376,
+          "media": 3.1
+        },
+        {
+          "label": "28_FARMACIE CONVENZIONATE",
+          "cnt": 915,
+          "media": 3.1
+        },
+        {
+          "label": "3883_SUCCI CIMENTINI FIORELLA",
+          "cnt": 313,
+          "media": 6.9
+        },
+        {
+          "label": "REGAUT_Registrazione automatica",
+          "cnt": 2261,
+          "media": 3.4
         }
       ]
     }
