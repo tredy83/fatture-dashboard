@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T13:21:55.984Z",
+  "generatedAt": "2026-06-11T13:15:33.004Z",
   "records": [
     {
       "name": "2026_03_12 BOZZA ANNO 2026_AO.xlsx",
@@ -7918,6 +7918,182 @@
           "v1429": 0,
           "v30": 0,
           "vtot": 3
+        }
+      ]
+    },
+    {
+      "name": "2026_06_11  BOZZA ANNO 2026_AO.xlsx",
+      "tipo": "AO",
+      "date": "2026-06-11",
+      "tot7": 439,
+      "tot713": 42,
+      "tot1429": 4,
+      "tot30": 0,
+      "totAll": 485,
+      "scrivanie": [
+        {
+          "label": "BENI E SERVIZI_BENI E SERVIZI",
+          "v7": 36,
+          "v713": 24,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 60
+        },
+        {
+          "label": "ECONOMATO_ECONOMATO",
+          "v7": 21,
+          "v713": 2,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 23
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 1_FARMACI E DISPOSITIVI 1",
+          "v7": 222,
+          "v713": 8,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 230
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 2_FARMACI E DISPOSITIVI 2",
+          "v7": 53,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 53
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 3_FARMACI E DISPOSITIVI 3",
+          "v7": 93,
+          "v713": 3,
+          "v1429": 2,
+          "v30": 0,
+          "vtot": 98
+        },
+        {
+          "label": "LP _LIBERI PROFESSIONISTI",
+          "v7": 8,
+          "v713": 4,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 12
+        },
+        {
+          "label": "PROGESTE_PROGESTE",
+          "v7": 0,
+          "v713": 0,
+          "v1429": 1,
+          "v30": 0,
+          "vtot": 1
+        },
+        {
+          "label": "REGAUT_Registrazione automatica",
+          "v7": 2,
+          "v713": 1,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 3
+        },
+        {
+          "label": "UTENZE_UTENZE",
+          "v7": 4,
+          "v713": 0,
+          "v1429": 1,
+          "v30": 0,
+          "vtot": 5
+        }
+      ]
+    },
+    {
+      "name": "2026_06_11  BOZZA ANNO 2026_AUSL.xlsx",
+      "tipo": "AUSL",
+      "date": "2026-06-11",
+      "tot7": 508,
+      "tot713": 17,
+      "tot1429": 0,
+      "tot30": 0,
+      "totAll": 525,
+      "scrivanie": [
+        {
+          "label": "13_RICCIARDELLA ANTONIETTA",
+          "v7": 32,
+          "v713": 2,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 34
+        },
+        {
+          "label": "14_ALESSIA MAZZONELLO",
+          "v7": 80,
+          "v713": 1,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 81
+        },
+        {
+          "label": "15_FARMACI 1",
+          "v7": 59,
+          "v713": 4,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 63
+        },
+        {
+          "label": "19_ LIBERI PROFESSIONISTI",
+          "v7": 7,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 7
+        },
+        {
+          "label": "21_GLORIA MORCIANO",
+          "v7": 44,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 44
+        },
+        {
+          "label": "24_FATTURE INTERESSI",
+          "v7": 2,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 2
+        },
+        {
+          "label": "26_SOCIO SANITARIO",
+          "v7": 67,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 67
+        },
+        {
+          "label": "28_FARMACIE CONVENZIONATE",
+          "v7": 13,
+          "v713": 1,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 14
+        },
+        {
+          "label": "3883_FARMACI 2",
+          "v7": 202,
+          "v713": 9,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 211
+        },
+        {
+          "label": "REGAUT_Registrazione automatica",
+          "v7": 2,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 2
         }
       ]
     }
