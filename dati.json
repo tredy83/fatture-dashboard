@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-18T13:28:37.044Z",
+  "generatedAt": "2026-06-19T12:24:37.420Z",
   "records": [
     {
       "name": "2026_03_12 BOZZA ANNO 2026_AO.xlsx",
@@ -8742,6 +8742,150 @@
           "v1429": 0,
           "v30": 0,
           "vtot": 38
+        },
+        {
+          "label": "UTENZE_UTENZE",
+          "v7": 1,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 1
+        }
+      ]
+    },
+    {
+      "name": "2026_06_19  BOZZA ANNO 2026_AUSL.xlsx",
+      "tipo": "AUSL",
+      "date": "2026-06-19",
+      "tot7": 178,
+      "tot713": 8,
+      "tot1429": 0,
+      "tot30": 0,
+      "totAll": 186,
+      "scrivanie": [
+        {
+          "label": "14_ALESSIA MAZZONELLO",
+          "v7": 34,
+          "v713": 2,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 36
+        },
+        {
+          "label": "15_FARMACI 1",
+          "v7": 76,
+          "v713": 6,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 82
+        },
+        {
+          "label": "21_GLORIA MORCIANO",
+          "v7": 3,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 3
+        },
+        {
+          "label": "26_SOCIO SANITARIO",
+          "v7": 9,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 9
+        },
+        {
+          "label": "28_FARMACIE CONVENZIONATE",
+          "v7": 3,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 3
+        },
+        {
+          "label": "3883_FARMACI 2",
+          "v7": 53,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 53
+        }
+      ]
+    },
+    {
+      "name": "2026_06_19  BOZZA ANNO 2026_AO.xlsx",
+      "tipo": "AO",
+      "date": "2026-06-19",
+      "tot7": 289,
+      "tot713": 49,
+      "tot1429": 0,
+      "tot30": 0,
+      "totAll": 338,
+      "scrivanie": [
+        {
+          "label": "AZIENDE SANITARIE_AZIENDE SANITARIE",
+          "v7": 1,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 1
+        },
+        {
+          "label": "BENI E SERVIZI_BENI E SERVIZI",
+          "v7": 11,
+          "v713": 29,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 40
+        },
+        {
+          "label": "ECONOMATO_ECONOMATO",
+          "v7": 27,
+          "v713": 3,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 30
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 1_FARMACI E DISPOSITIVI 1",
+          "v7": 155,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 155
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 2_FARMACI E DISPOSITIVI 2",
+          "v7": 31,
+          "v713": 4,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 35
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 3_FARMACI E DISPOSITIVI 3",
+          "v7": 62,
+          "v713": 12,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 74
+        },
+        {
+          "label": "FATTURE ANNO 2023_FATTURE ANNO 2023",
+          "v7": 0,
+          "v713": 1,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 1
+        },
+        {
+          "label": "REGAUT_Registrazione automatica",
+          "v7": 1,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 1
         },
         {
           "label": "UTENZE_UTENZE",
