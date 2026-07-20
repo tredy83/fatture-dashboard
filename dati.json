@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-17T12:59:50.362Z",
+  "generatedAt": "2026-07-20T13:28:44.232Z",
   "records": [
     {
       "name": "2026_03_12 BOZZA ANNO 2026_AO.xlsx",
@@ -11510,6 +11510,158 @@
           "v1429": 0,
           "v30": 0,
           "vtot": 36
+        }
+      ]
+    },
+    {
+      "name": "2026_07_20  BOZZA ANNO 2026_AUSL.xlsx",
+      "tipo": "AUSL",
+      "date": "2026-07-20",
+      "tot7": 239,
+      "tot713": 2,
+      "tot1429": 0,
+      "tot30": 0,
+      "totAll": 241,
+      "scrivanie": [
+        {
+          "label": "13_PROTESICA",
+          "v7": 2,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 2
+        },
+        {
+          "label": "14_ALESSIA MAZZONELLO",
+          "v7": 50,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 50
+        },
+        {
+          "label": "15_FARMACI 1",
+          "v7": 51,
+          "v713": 2,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 53
+        },
+        {
+          "label": "19_ LIBERI PROFESSIONISTI",
+          "v7": 3,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 3
+        },
+        {
+          "label": "21_GLORIA MORCIANO",
+          "v7": 23,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 23
+        },
+        {
+          "label": "24_FATTURE INTERESSI",
+          "v7": 1,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 1
+        },
+        {
+          "label": "26_SOCIO SANITARIO",
+          "v7": 8,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 8
+        },
+        {
+          "label": "28_FARMACIE CONVENZIONATE",
+          "v7": 28,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 28
+        },
+        {
+          "label": "3883_FARMACI 2",
+          "v7": 73,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 73
+        }
+      ]
+    },
+    {
+      "name": "2026_07_20  BOZZA ANNO 2026_AO.xlsx",
+      "tipo": "AO",
+      "date": "2026-07-20",
+      "tot7": 232,
+      "tot713": 71,
+      "tot1429": 0,
+      "tot30": 0,
+      "totAll": 303,
+      "scrivanie": [
+        {
+          "label": "BENI E SERVIZI_BENI E SERVIZI",
+          "v7": 32,
+          "v713": 19,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 51
+        },
+        {
+          "label": "ECONOMATO_ECONOMATO",
+          "v7": 20,
+          "v713": 30,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 50
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 1_FARMACI E DISPOSITIVI 1",
+          "v7": 113,
+          "v713": 10,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 123
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 2_FARMACI E DISPOSITIVI 2",
+          "v7": 18,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 18
+        },
+        {
+          "label": "FARMACI E DISPOSITIVI 3_FARMACI E DISPOSITIVI 3",
+          "v7": 40,
+          "v713": 12,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 52
+        },
+        {
+          "label": "LP _LIBERI PROFESSIONISTI",
+          "v7": 4,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 4
+        },
+        {
+          "label": "PROGESTE_PROGESTE",
+          "v7": 5,
+          "v713": 0,
+          "v1429": 0,
+          "v30": 0,
+          "vtot": 5
         }
       ]
     }
